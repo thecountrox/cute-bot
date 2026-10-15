@@ -1,5 +1,5 @@
 import tls from "node:tls";
-import { Agent, ProxyAgent } from "undici";
+import { Agent, ProxyAgent, fetch as undiciFetch } from "undici";
 import { SocksClient } from "socks";
 import { config } from "../../../config/config.js";
 
@@ -112,7 +112,7 @@ export class KrunkerApi {
      * @param {{ fetchFn?: typeof fetch, sleep?: (ms: number) => Promise<void>, spacingMs?: number, proxyUrl?: string }} [options]
      *   proxyUrl: optional http(s) or socks proxy for every request, for hosts whose own IP is blocked by Krunker's edge
      */
-    constructor({ fetchFn = globalThis.fetch, sleep = ms => new Promise(r => setTimeout(r, ms)), spacingMs = 200, proxyUrl = "" } = {}){
+    constructor({ fetchFn = undiciFetch, sleep = ms => new Promise(r => setTimeout(r, ms)), spacingMs = 200, proxyUrl = "" } = {}){
         this.fetchFn = fetchFn;
         this.sleep = sleep;
         this.spacingMs = spacingMs;
